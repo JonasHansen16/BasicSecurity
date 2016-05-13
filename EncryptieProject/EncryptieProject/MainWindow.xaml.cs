@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using System.IO;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using System.Windows.Media;
 
 namespace EncryptieProject
 {
@@ -106,165 +107,171 @@ namespace EncryptieProject
 
         private void startEncryptButton_Click(object sender, RoutedEventArgs e)
         {
+            string publicKeyFilePath = publicKeyDecryptionLocationTextBox.Text;
+            string privateKeyFilePath = privateKeyDecryptionLocationTextBox.Text;
+            string encryptedMessageFilePath = file1LocationTextBox.Text;
+            string encryptedKeyFilePath = file2LocationTextBox.Text;
+            string signedHashFilePath = file3LocationTextBox.Text;
+
             if (decryptieRadioButton.IsChecked == true)
             {
-                if (stenographyChecked)
+                if (publicKeyFilePath != "" && privateKeyFilePath != "" && encryptedMessageFilePath != "" && encryptedKeyFilePath != "" && signedHashFilePath != "")
                 {
-                    Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
-                    dlg.FileName = "DecryptedFile"; // Default file name
-                    dlg.DefaultExt = ".txt";
+                    if (stenographyChecked)
+                    {
+                        Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+                        dlg.FileName = "DecryptedFile"; // Default file name
+                        dlg.DefaultExt = ".txt";
 
-                    // Show save file dialog box
-                    Nullable<bool> result = dlg.ShowDialog();
-                    string filename = null;
+                        // Show save file dialog box
+                        Nullable<bool> result = dlg.ShowDialog();
+                        string filename = null;
 
-                    // Process save file dialog box results
-                    if (result == true)
+                        // Process save file dialog box results
+                        if (result == true)
+                        {
+                            try
+                            {
+                                filename = dlg.FileName;
+
+
+                            }
+                            catch (IOException ex)
+                            {
+                                MessageBox.Show(ex.Message);
+
+                            }
+                        }
+
+                        bool hashVerified = false;
+
+                        try
+                        {
+                            steno.StartDecrypt(file1LocationTextBox.Text, privateKeyDecryptionLocationTextBox.Text,
+                                file2LocationTextBox.Text, filename);
+                            hashVerified = Encryption.VerifyFile(filename, file3LocationTextBox.Text, publicKeyDecryptionLocationTextBox.Text);
+
+
+                            if (hashVerified)
+                            {
+                                statusTextBlock.Text = "Decryptie is gelukt. De hash komt overeen.";
+                                statusGrid.Background = Brushes.Green;
+                                System.Diagnostics.Process.Start(filename);
+                            }
+                            else
+                            {
+                                statusTextBlock.Text = "Decryptie is niet gelukt.";
+                                statusGrid.Background = Brushes.Red;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                    }
+                    else
                     {
                         try
                         {
-                            filename = dlg.FileName;
+                            string decryptedMessageFilePath = Encryption.Decrypt(privateKeyFilePath, encryptedMessageFilePath, encryptedKeyFilePath);
+                            bool hashVerified = Encryption.VerifyFile(decryptedMessageFilePath, signedHashFilePath, publicKeyFilePath);
+
+                            if (hashVerified)
+                            {
+                                statusTextBlock.Text = "Decryptie is gelukt. De hash komt overeen.";
+                                statusGrid.Background = Brushes.Green;
+                                System.Diagnostics.Process.Start(decryptedMessageFilePath);
+                            }
+                            else
+                            {
+                                statusTextBlock.Text = "Decryptie is niet gelukt.";
+                                statusGrid.Background = Brushes.Red;
+                            }
 
 
                         }
-                        catch (IOException ex)
+                        catch (Exception ex)
                         {
-                            Console.WriteLine(ex.Message);
-
+                            statusTextBlock.Text = "Decryptie is niet gelukt.";
+                            statusGrid.Background = Brushes.Red;
                         }
-                      
-
-                    }
-                    else
-                    {
 
                     }
 
-                   // Steganography steganography = new Steganography();
-                    steno.StartDecrypt(file1LocationTextBox.Text, privateKeyDecryptionLocationTextBox.Text,
-                        file2LocationTextBox.Text, filename);
-                    bool hashVerified = Encryption.VerifyFile(filename, file3LocationTextBox.Text, publicKeyDecryptionLocationTextBox.Text);
-                    if (hashVerified)
-                    {
-                        MessageBox.Show("Hash ok");
-                        System.Diagnostics.Process.Start(filename);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Hash does not match, file from unknown origin");
-                    }
-
-
-
-                }
-                else
+                } else
                 {
-                    try
-                    {
-                        string publicKeyFilePath = publicKeyDecryptionLocationTextBox.Text;
-                        string privateKeyFilePath = privateKeyDecryptionLocationTextBox.Text;
-                        string encryptedMessageFilePath = file1LocationTextBox.Text;
-                        string encryptedKeyFilePath = file2LocationTextBox.Text;
-                        string signedHashFilePath = file3LocationTextBox.Text;
-
-                        string decryptedMessageFilePath = Encryption.Decrypt(privateKeyFilePath, encryptedMessageFilePath, encryptedKeyFilePath);
-                        bool hashVerified = Encryption.VerifyFile(decryptedMessageFilePath, signedHashFilePath, publicKeyFilePath);
-
-                        if (hashVerified)
-                        {
-                            MessageBox.Show("Hash ok");
-                            System.Diagnostics.Process.Start(decryptedMessageFilePath);
-                        }
-                        else
-                        {
-                            MessageBox.Show("Hash does not match, file from unknown origin");
-                        }
-
-
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-
+                    MessageBox.Show("Er is niet overal een file ingegeven.");
                 }
-
-
-
-
-                //try
-                //{
-                //    Steganography.ExtractMessageFromBitmap(bitmap, keyStream, ref decryptedFileStream);
-                //    if (file2LocationTextBox.Text.Length > 0)
-                //    {
-                //        decryptedFileStream.Seek(0, SeekOrigin.Begin);
-                //        FileStream fs = new FileStream(file2LocationTextBox.Text, FileMode.Create);
-                //        byte[] streamContent = new Byte[decryptedFileStream.Length];
-                //        decryptedFileStream.Read(streamContent, 0, streamContent.Length);
-                //        fs.Write(streamContent, 0, streamContent.Length);
-                //    }
-                //}
-                //catch (Exception ex)
-                //{
-                //    MessageBox.Show("Exception:\r\n" + ex.Message);
-                //}
-
-
-                //bitmap = null;
             }
+            
+                
+            
             else
             {
-
-
-                if (stenographyChecked)
+                string publicEncryptionKeyFilePath = publicKeyEncryptionLocationTextBox.Text;
+                string privateEncryptionKeyFilePath = privateKeyEncryptionLocationTextBox.Text;
+                string locationFilePath = filesEncryptionLocationTextBox.Text;
+                string toEncryptFilePath = encryptFileLocationTextBox.Text;
+                if (publicEncryptionKeyFilePath != "" && privateEncryptionKeyFilePath != "" && locationFilePath != "" && toEncryptFilePath != "")
                 {
-                   // Steganography steganography = new Steganography();
-                    //BitmapImage startImage = new BitmapImage(new Uri(ImageFileLocationTextBox.Text));
-                    steno.StartEncrypting(encryptFileLocationTextBox.Text
-                        , filesEncryptionLocationTextBox.Text,
-                        ImageFileLocationTextBox.Text, publicKeyEncryptionLocationTextBox.Text, privateKeyEncryptionLocationTextBox.Text);
-                }
-                else
+
+
+                    if (stenographyChecked)
+                    {
+                        if (ImageFileLocationTextBox.Text != "")
+                        {
+
+
+                            try
+                            {
+                                steno.StartEncrypting(encryptFileLocationTextBox.Text
+                                    , filesEncryptionLocationTextBox.Text,
+                                    ImageFileLocationTextBox.Text, publicKeyEncryptionLocationTextBox.Text, privateKeyEncryptionLocationTextBox.Text);
+                                statusTextBlock.Text = "Steganography en encryptie is gelukt.";
+                                statusGrid.Background = Brushes.Green;
+                            }
+                            catch (Exception ex)
+                            {
+                                statusTextBlock.Text = "Steganography en encryptie is niet gelukt.";
+                                statusGrid.Background = Brushes.Red;
+                            }
+                        }else
+                        {
+                            MessageBox.Show("Geef een afbeelding voor in te encrypteren");
+                        }
+                    }
+                    else
+                    {
+                        try
+                        {
+                            Encryption.Encrypt(publicEncryptionKeyFilePath, privateEncryptionKeyFilePath, locationFilePath, toEncryptFilePath, extension);
+                            statusTextBlock.Text = "Encryptie is gelukt.";
+                            statusGrid.Background = Brushes.Green;
+                        }
+                        catch (Exception ex)
+                        {
+                            statusTextBlock.Text = "Encryptie is niet gelukt.";
+                            statusGrid.Background = Brushes.Red;
+                        }
+                    }
+                } else
                 {
-                    try
-                    {
-                        string publicKeyFilePath = publicKeyEncryptionLocationTextBox.Text;
-                        string privateKeyFilePath = privateKeyEncryptionLocationTextBox.Text;
-                        string locationFilePath = filesEncryptionLocationTextBox.Text;
-                        string toEncryptFilePath = encryptFileLocationTextBox.Text;
-                        Encryption.Encrypt(publicKeyFilePath, privateKeyFilePath, locationFilePath, toEncryptFilePath, extension);
-                        MessageBox.Show("encryptie gedaan");
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
+                    MessageBox.Show("Er is niet overal een file ingegeven.");
                 }
-
-
-
-
-
-                //try
-                //{
-                //    Steganography.HideMessageInBitmap(toEncryptFileStream, bitmap, keyStream);
-                //    SaveImage(bitmap);
-                //}
-                //catch (Exception ex)
-                //{
-                //    MessageBox.Show("Exception:\r\n" + ex.Message);
-                //}
-
-
-                //bitmap = null;
-
             }
         }
 
         
         private void filesEncryptionButton_Click(object sender, RoutedEventArgs e)
         {
-            filesEncryptionLocationTextBox.Text = GetDirectoryPath();
+           string subPath = GetDirectoryPath() + "/Encryption";
+
+            bool exists = System.IO.Directory.Exists(subPath);
+
+            if (!exists)
+                System.IO.Directory.CreateDirectory(subPath);
+
+            filesEncryptionLocationTextBox.Text = subPath;
         }
 
         /*source: http://www.codeproject.com/Articles/4877/Steganography-Hiding-messages-in-the-Noise-of-a-Pi 
@@ -341,7 +348,9 @@ namespace EncryptieProject
         {
             stenographyChecked = false;
             visualImage.Visibility = Visibility.Hidden;
-            label_Copy1.Content = "selecteer te encrypteren bestand";
+            label_Copy2.Visibility = Visibility.Hidden;
+            ImageFileLocationTextBox.Visibility = Visibility.Hidden;
+            ImageFileButton.Visibility = Visibility.Hidden;
         }
 
         private void ImageFileButton_Click(object sender, RoutedEventArgs e)
@@ -349,8 +358,38 @@ namespace EncryptieProject
             ImageFileLocationTextBox.Text = getFile();
             if (stenographyChecked)
             {
-                visualImage.Source = new BitmapImage(new Uri(ImageFileLocationTextBox.Text));
+                try
+                {
+                    visualImage.Source = new BitmapImage(new Uri(ImageFileLocationTextBox.Text));
+                }
+                catch
+                {
+                    MessageBox.Show("Selecteer een afbeelding");
+                }
+                
             }
+        }
+
+        private string GetImageFile()
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.Filter = "*.png|*.bmp";
+            Nullable<bool> result = dlg.ShowDialog();
+            //kan niet in een gewone bool, aangezien ShowDialog() een generische bool teruggeeft.
+
+            if (result == true)
+            {
+                string fileName = dlg.FileName;
+
+                return fileName;
+            }
+            else
+                return null;
+        }
+
+        private void genereateKeys_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

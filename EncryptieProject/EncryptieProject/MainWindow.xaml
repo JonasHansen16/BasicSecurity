@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EncryptieProject"
         mc:Ignorable="d"
-        Title="MainWindow" Height="463.262" Width="662.376">
+        Title="MainWindow" Height="463.262" Width="682.376">
     <Grid Margin="0,0,0,-54">
-        <Grid x:Name="statusGrid" HorizontalAlignment="Left" Height="31" Margin="10,10,0,0" VerticalAlignment="Top" Width="559">
+        <Grid x:Name="statusGrid" HorizontalAlignment="Left" Height="31" Margin="10,10,0,0" VerticalAlignment="Top" Width="654">
             <Border BorderBrush="Black" BorderThickness="1"/>
             <TextBlock x:Name="statusTextBlock" Text="Kies de functie die u wilt uitvoeren" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"></TextBlock>
         </Grid>
@@ -25,22 +25,23 @@
                 </CheckBox>
             </Grid>
         </GroupBox>
-        <GroupBox x:Name="fileEncryptionGroupBox" Visibility="Visible" Header="Bestandslocaties toewijzen" HorizontalAlignment="Left" Margin="153,59,0,0" VerticalAlignment="Top" Height="346" Width="477">
-            <Grid Margin="0,0,25,-12">
+        <GroupBox x:Name="fileEncryptionGroupBox" Visibility="Visible" Header="Bestandslocaties toewijzen" HorizontalAlignment="Left" Margin="153,59,0,0" VerticalAlignment="Top" Height="346" Width="511">
+            <Grid Margin="0,0,-12,-12">
+
                 <Label x:Name="labelPublicEncryption" Content="Kies PUBLIC key van ontvanger:" HorizontalAlignment="Left" Margin="10,9,0,0" VerticalAlignment="Top" Width="196">
 
                 </Label>
-                <TextBox x:Name="publicKeyEncryptionLocationTextBox" HorizontalAlignment="Left" Height="23" Margin="10,35,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="241" />
-                <Button x:Name="publicKeyEncryptionLocationButton" Content="Kies locatie" HorizontalAlignment="Left" Margin="268,35,0,0" VerticalAlignment="Top" Width="95" Click="publicKeyEncryptionLocationButton_Click"/>
+                <TextBox x:Name="publicKeyEncryptionLocationTextBox" HorizontalAlignment="Left" Height="23" Margin="10,35,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="353" />
+                <Button x:Name="publicKeyEncryptionLocationButton" Content="Kies locatie" HorizontalAlignment="Left" Margin="390,35,0,0" VerticalAlignment="Top" Width="96" Click="publicKeyEncryptionLocationButton_Click"/>
                 <Label x:Name="labelPrivateEncryption" Content="Kies je PRIVATE key:" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" Width="145" RenderTransformOrigin="0.5,0.5"/>
-                <TextBox x:Name="privateKeyEncryptionLocationTextBox" HorizontalAlignment="Left" Height="23" Margin="10,83,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="241"/>
-                <Button x:Name="privateKeyEncryptionLocationButton" Content="Kies locatie" HorizontalAlignment="Left" Margin="268,83,0,0" VerticalAlignment="Top" Width="95" Click="privateKeyEncryptionLocationButton_Click"/>
+                <TextBox x:Name="privateKeyEncryptionLocationTextBox" HorizontalAlignment="Left" Height="23" Margin="10,83,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="353"/>
+                <Button x:Name="privateKeyEncryptionLocationButton" Content="Kies locatie" HorizontalAlignment="Left" Margin="390,83,0,0" VerticalAlignment="Top" Width="96" Click="privateKeyEncryptionLocationButton_Click"/>
                 <Label x:Name="label_Copy" Content="Bestandslocatie files:" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Width="145" RenderTransformOrigin="0.5,0.5"/>
-                <TextBox x:Name="filesEncryptionLocationTextBox"  HorizontalAlignment="Left" Height="23" Margin="10,141,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="241"/>
-                <Button x:Name="filesEncryptionButton" Content="Kies locatie" HorizontalAlignment="Left" Margin="268,141,0,0" VerticalAlignment="Top" Width="95" Click="filesEncryptionButton_Click"/>
+                <TextBox x:Name="filesEncryptionLocationTextBox"  HorizontalAlignment="Left" Height="23" Margin="10,141,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="353"/>
+                <Button x:Name="filesEncryptionButton" Content="Kies locatie" HorizontalAlignment="Left" Margin="390,141,0,0" VerticalAlignment="Top" Width="96" Click="filesEncryptionButton_Click"/>
                 <Label x:Name="label_Copy1" Content="Selecteer te encrypteren bestand:" HorizontalAlignment="Left" Margin="10,164,0,0" VerticalAlignment="Top" Width="196" RenderTransformOrigin="0.5,0.5"/>
-                <TextBox x:Name="encryptFileLocationTextBox" HorizontalAlignment="Left" Height="23" Margin="10,196,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="241" FontSize="9" AcceptsReturn="False"/>
-                <Button x:Name="encryptedFileButton" Content="Kies bestand" HorizontalAlignment="Left" Margin="268,196,0,0" VerticalAlignment="Top" Width="95" Click="encryptedFileButton_Click"/>
+                <TextBox x:Name="encryptFileLocationTextBox" HorizontalAlignment="Left" Height="23" Margin="10,196,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="353" FontSize="9" AcceptsReturn="False"/>
+                <Button x:Name="encryptedFileButton" Content="Kies bestand" HorizontalAlignment="Left" Margin="390,196,0,0" VerticalAlignment="Top" Width="96" Click="encryptedFileButton_Click"/>
                 <Label x:Name="label_Copy2" Content="Selecteer een Image" HorizontalAlignment="Left" Margin="10,240,0,0" VerticalAlignment="Top" Width="196" RenderTransformOrigin="0.5,0.5" Visibility="Hidden"/>
                 <TextBox x:Name="ImageFileLocationTextBox" HorizontalAlignment="Left" Height="23" Margin="10,265,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="241" FontSize="9" AcceptsReturn="False" Visibility="Hidden"/>
                 <Button x:Name="ImageFileButton" Content="Kies bestand" HorizontalAlignment="Left" Margin="268,265,0,0" VerticalAlignment="Top" Width="95" Click="ImageFileButton_Click" Visibility="Hidden"/>
@@ -49,38 +50,36 @@
 
 
 
-                <Image x:Name="visualImage" Width="100" Height="100" Margin="10,226,330,10"/>
+                <Image x:Name="visualImage" Width="100" Height="100" Margin="380,226,10,10"/>
 
 
             </Grid>
         </GroupBox>
         <GroupBox x:Name="fileDecryptionGroupBox" Visibility="Hidden" Header="Kies bestanden" HorizontalAlignment="Left" Margin="153,59,0,0" VerticalAlignment="Top" Height="302" Width="416">
             <Grid Margin="0,0,23,-12" Height="292" VerticalAlignment="Top" RenderTransformOrigin="0.508,0.402">
-                <Label x:Name="labelPublic" Content="Kies PUBLIC key Alice:" HorizontalAlignment="Left" Margin="10,9,0,0" VerticalAlignment="Top" Width="145">
+                <Label x:Name="labelPublic" Content="Kies PUBLIC key verzender:" HorizontalAlignment="Left" Margin="10,9,0,0" VerticalAlignment="Top" Width="145">
 
                 </Label>
                 <TextBox x:Name="publicKeyDecryptionLocationTextBox" HorizontalAlignment="Left" Height="23" Margin="10,35,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="241"/>
                 <Button x:Name="publicKeyDecryptionLocationButton" Content="Kies locatie" HorizontalAlignment="Left" Margin="268,35,0,0" VerticalAlignment="Top" Width="95" Click="publicKeyDecryptionLocationButton_Click"/>
-                <Label x:Name="labelPrivate" Content="Kies PRIVATE key Bob:" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" Width="145" RenderTransformOrigin="0.5,0.5"/>
+                <Label x:Name="labelPrivate" Content="Kies je PRIVATE key:" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" Width="145" RenderTransformOrigin="0.5,0.5"/>
                 <TextBox x:Name="privateKeyDecryptionLocationTextBox" HorizontalAlignment="Left" Height="23" Margin="10,83,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="241"/>
                 <Button x:Name="privateKeyDecryptionLocationButton" Content="Kies locatie" HorizontalAlignment="Left" Margin="268,83,0,0" VerticalAlignment="Top" Width="95" Click="privateKeyDecryptionLocationButton_Click"/>
                 <Separator Margin="23,2,0,45"/>
-                <Label x:Name="labelFile1" Content="Kies File_1:" HorizontalAlignment="Left" Margin="10,131,0,0" VerticalAlignment="Top" Width="135" RenderTransformOrigin="0.5,0.5"/>
+                <Label x:Name="labelFile1" Content="Kies File_1 (te decrypteren message):" HorizontalAlignment="Left" Margin="10,131,0,0" VerticalAlignment="Top" Width="135" RenderTransformOrigin="0.5,0.5"/>
                 <TextBox x:Name="file1LocationTextBox" HorizontalAlignment="Left" Height="23" Margin="10,157,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="241"/>
                 <Button x:Name="file1LocationButton" Content="Kies bestand" HorizontalAlignment="Left" Margin="268,162,0,0" VerticalAlignment="Top" Width="95" Click="file1LocationButton_Click"/>
-                <Label x:Name="labelFile2" Content="Kies File_2:" HorizontalAlignment="Left" Margin="10,177,0,0" VerticalAlignment="Top" Width="135" RenderTransformOrigin="0.5,0.5"/>
+                <Label x:Name="labelFile2" Content="Kies File_2 (encrypted key):" HorizontalAlignment="Left" Margin="10,177,0,0" VerticalAlignment="Top" Width="162" RenderTransformOrigin="0.5,0.5"/>
                 <TextBox x:Name="file2LocationTextBox" HorizontalAlignment="Left" Height="23" Margin="10,203,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="241"/>
                 <Button x:Name="file2LocationButton" Content="Kies bestand" HorizontalAlignment="Left" Margin="268,208,0,0" VerticalAlignment="Top" Width="95" Click="file2LocationButton_Click"/>
-                <Label x:Name="labelFile3" Content="Kies File_3:" HorizontalAlignment="Left" Margin="10,221,0,0" VerticalAlignment="Top" Width="135" RenderTransformOrigin="0.5,0.5"/>
+                <Label x:Name="labelFile3" Content="Kies File_3 (signature):" HorizontalAlignment="Left" Margin="10,221,0,0" VerticalAlignment="Top" Width="135" RenderTransformOrigin="0.5,0.5"/>
                 <TextBox x:Name="file3LocationTextBox" HorizontalAlignment="Left" Height="23" Margin="10,247,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="241"/>
                 <Button x:Name="file3LocationButton" Content="Kies bestand" HorizontalAlignment="Left" Margin="268,247,0,0" VerticalAlignment="Top" Width="95" Click="file3LocationButton_Click"/>
 
 
             </Grid>
         </GroupBox>
-        <Label x:Name="hashLabel"  Margin="10,305,367,82" >
-            <Image x:Name="image" Height="100" Width="100"/>
-        </Label>
+        <Button x:Name="genereateKeys" Content="Genereer keys" Margin="19,208,535,224" Click="genereateKeys_Click" />
         <Button x:Name="startEncryptButton" Content="Encrypteer" HorizontalAlignment="Left" Margin="19,267,0,0" VerticalAlignment="Top" Width="120" Height="115" Click="startEncryptButton_Click"/>
     </Grid>
 
