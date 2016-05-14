@@ -316,7 +316,17 @@ namespace EncryptieProject
             var dialog = new CommonOpenFileDialog();
             dialog.IsFolderPicker = true;
             CommonFileDialogResult result = dialog.ShowDialog();
-            return dialog.FileName;
+
+            if(result == CommonFileDialogResult.Ok)
+            {
+                return dialog.FileName;
+            }
+            else
+            {
+                return null;
+            }
+          
+            
         }
 
         private void publicKeyDecryptionLocationButton_Click(object sender, RoutedEventArgs e)
@@ -389,7 +399,30 @@ namespace EncryptieProject
 
         private void genereateKeys_Click(object sender, RoutedEventArgs e)
         {
+            string directory = GetDirectoryPath();
+            if (directory != null)
+            {
+                string publicKey = "/PublicKey";
+                string privateKey = "/PrivateKey";
+                bool exists = System.IO.Directory.Exists(directory);
 
+                if (!exists)
+                    System.IO.Directory.CreateDirectory(directory);
+
+
+                try
+                {
+                    KeyGenerator.CreateKeys(directory + publicKey, directory + privateKey);
+                    statusTextBlock.Text = "Sleutels aangemaakt";
+                    statusGrid.Background = Brushes.Green;
+                }
+                catch (Exception ex)
+                {
+                    statusTextBlock.Text = "Fout opgelopen tijdens het aanmaken van de sleutels";
+                    statusGrid.Background = Brushes.Red;
+                }
+            }
+            
         }
     }
 }
