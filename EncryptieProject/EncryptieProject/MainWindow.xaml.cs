@@ -399,7 +399,7 @@ namespace EncryptieProject
 
         private void genereateKeys_Click(object sender, RoutedEventArgs e)
         {
-            string directory = GetDirectoryPath();
+            string directory = GetDirectoryPath() + "/Keys";
             if (directory != null)
             {
                 string publicKey = "/PublicKey";
