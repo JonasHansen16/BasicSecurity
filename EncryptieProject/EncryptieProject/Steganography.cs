@@ -24,26 +24,6 @@ namespace EncryptieProject
         {
         }
 
-        public void Encrypt()
-        {
-            /*int fileLength;
-            using(Stream fileStream = File.OpenRead(filePath))
-            using (Stream imageStream = File.OpenRead(imageBeginPath))
-            using (Stream keyStream = File.OpenRead(keyPath))
-            
-            {
-                fileLength = (Int32)fileStream.Length;
-                string colorValue = fileLength.ToString("x"); //transfer in hexadecimal
-                colorValue = UnTrimColorString(colorValue, 6);
-                int red = Int16.Parse(colorValue.Substring(0, 2), NumberStyles.HexNumber);
-                int green = Int16.Parse(colorValue.Substring(2, 2), NumberStyles.HexNumber);
-                int blue = Int16.Parse(colorValue.Substring(4, 2), NumberStyles.HexNumber);
-                BitmapImage b = new BitmapImage();
-                
-
-            }*/
-        }
-
         /*source: http://www.codeproject.com/Articles/4877/Steganography-Hiding-messages-in-the-Noise-of-a-Pi */
        public void StartEncrypting(string toEncryptFileLocation, string locationToSaveImage, string startImage, string publicKeyLocation, string privateKeyLocation)
        {
@@ -105,13 +85,7 @@ namespace EncryptieProject
         {
             BitmapSource bitmap = new BitmapImage(new Uri(toDecryptImageLocation));
 
-            // Stream decryptedFileStream = new MemoryStream();
-
-
-            // byte[] keyBytes = UnicodeEncoding.Unicode.GetBytes(key);
-
              byte[] keyBytes = Encryption.DecryptFileRSA(keyLocation, EncryptedKeyFileLocation);
-            //byte[] keyBytes = Encoding.Default.GetBytes("pizza");
             Stream keyStream = new MemoryStream(keyBytes);
             Stream decryptedFileStream = new MemoryStream();
 
@@ -273,7 +247,7 @@ namespace EncryptieProject
             int xEndImagePosition = 1;
             int yEndImagePosition = 0;
 
-            //Loop over the file and hide each byte
+            //Loop over the file
             for (int fileIndex = 0; fileIndex < fileLength; fileIndex++)
             {
                 //To repaet the key, if it is shorter than the message
@@ -380,18 +354,6 @@ namespace EncryptieProject
             }
         }
 
-        /*source: http://www.codeproject.com/Articles/4877/Steganography-Hiding-messages-in-the-Noise-of-a-Pi
-        checking if the hexadecimal version of the length of the file, has a size of 6 places. Then it can be divived in the 3 
-        color values(r, g en b). Else 0's are added so it has a lengt of 6.
-        */
-        private static string UnTrimColorString(String color, int desiredLenght)
-        {
-            int difference = desiredLenght - color.Length;
-            if (difference > 0)
-                color = new String('0', difference) + color;
-            return color;
-        }
-
         /*src: https://social.msdn.microsoft.com/Forums/vstudio/en-US/82a5731e-e201-4aaf-8d4b-062b138338fe/getting-pixel-information-from-a-bitmapimage?forum=wpf 
         Calculate where the specified pixel is in the array, en return the right value for r, g and b*/
         
@@ -400,7 +362,7 @@ namespace EncryptieProject
             int index = yPixel * stride + 4 * xPixel;
 
             if (rgb == 'r')
-                return pixelData[index + 1];
+                return pixelData[index + 1];//index + 1 because in the first value of the pixel is the alpha value(opacity)
             else if (rgb == 'g')
                 return pixelData[index + 2];
             else if (rgb == 'b')
