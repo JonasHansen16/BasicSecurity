@@ -10,6 +10,11 @@ namespace EncryptieProject
 {
     public static class MD5Hash
     {
+        /// <summary>
+        /// Hash maken van onze originele file
+        /// </summary>
+        /// <param name="originalFilePath"></param> pad naar onze file
+        /// <returns>hash bytes</returns>
         public static byte[] calculateHashFromFile(string originalFilePath)
         {
             byte[] buffer; //delen van het bestand opslaan, zodat de verschillende delen gehashed kunnen worden
